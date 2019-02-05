@@ -24,7 +24,7 @@ public class InventoryService {
     }
 
     public void addInventoryItem(InventoryItem inventoryItem) {
-        if (this.inventoryItemRepository.existsById(inventoryItem.getId())) {
+        if (inventoryItem.getId() != null && this.inventoryItemRepository.existsById(inventoryItem.getId())) {
             throw new ItemAlreadyExistsException();
         }
         this.inventoryItemRepository.save(inventoryItem);

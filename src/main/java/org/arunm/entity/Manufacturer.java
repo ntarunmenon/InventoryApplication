@@ -15,6 +15,7 @@ import javax.validation.constraints.Pattern;
 public class Manufacturer {
 
     @Id
+    @JsonIgnore
     private String id;
     @NotNull
     @NotBlank

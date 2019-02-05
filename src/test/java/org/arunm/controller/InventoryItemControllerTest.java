@@ -23,7 +23,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDateTime;
 
 import static org.mockito.BDDMockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -58,7 +57,7 @@ public class InventoryItemControllerTest {
 
     @Test
     public void testItemCreated() throws Exception {
-        this.mockMvc.perform(post("/inventory").with(csrf())
+        this.mockMvc.perform(post("/inventory")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(asJsonString(createValidInventoryItem())))
                 .andExpect(status().isCreated());
@@ -67,7 +66,7 @@ public class InventoryItemControllerTest {
 
     @Test
     public void testItemCreated_Fails() throws Exception {
-        this.mockMvc.perform(post("/inventory").with(csrf())
+        this.mockMvc.perform(post("/inventory")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(asJsonString(createInValidInventoryItem())))
                 .andExpect(status().isBadRequest())
@@ -79,7 +78,7 @@ public class InventoryItemControllerTest {
         willThrow(ItemAlreadyExistsException.class).given(inventoryService)
                 .addInventoryItem(any(InventoryItem.class));
 
-        this.mockMvc.perform(post("/inventory").with(csrf())
+        this.mockMvc.perform(post("/inventory")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(asJsonString(createValidInventoryItem())))
                 .andExpect(status().isConflict())
