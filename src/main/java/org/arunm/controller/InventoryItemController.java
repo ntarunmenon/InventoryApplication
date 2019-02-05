@@ -9,11 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -29,8 +26,8 @@ public class InventoryItemController {
     }
 
     @GetMapping()
-    public List<InventoryItem> getInventoryItems(@RequestParam(value = "limit",defaultValue = "0") int limit, @RequestParam(value = "skip", defaultValue = "0") int offset) {
-        return inventoryService.getInventoryItems(limit,offset);
+    public List<InventoryItem> getInventoryItems(@RequestParam(value = "limit", defaultValue = "0") int limit, @RequestParam(value = "skip", defaultValue = "0") int offset) {
+        return inventoryService.getInventoryItems(limit, offset);
     }
 
     @GetMapping("/{id}")
@@ -39,7 +36,7 @@ public class InventoryItemController {
     }
 
     @PostMapping
-    public ResponseEntity addInventoryItem(@Valid @RequestBody InventoryItem inventoryItem){
+    public ResponseEntity addInventoryItem(@Valid @RequestBody InventoryItem inventoryItem) {
         inventoryService.addInventoryItem(inventoryItem);
         return ResponseEntity.status(HttpStatus.CREATED).body("item created");
     }
@@ -49,21 +46,21 @@ public class InventoryItemController {
 class RestExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(value= HttpStatus.NOT_FOUND)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ResponseBody
     public String noInventoryItemFound() {
         return "not found";
     }
 
     @ExceptionHandler(ItemAlreadyExistsException.class)
-    @ResponseStatus(value= HttpStatus.CONFLICT)
+    @ResponseStatus(value = HttpStatus.CONFLICT)
     @ResponseBody
     public String itemAlreadyExists() {
         return "an existing item already exists";
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    @ResponseStatus(value= HttpStatus.BAD_REQUEST)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ResponseEntity<String> argumentMismatchException() {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("bad input parameter");

@@ -19,18 +19,18 @@ public class InventoryService {
     }
 
     public List<InventoryItem> getInventoryItems(int limit, int offset) {
-        return inventoryItemRepository.findAll(new PageRequestWithOffset(limit,offset)).stream().collect(Collectors.toList());
+        return inventoryItemRepository.findAll(new PageRequestWithOffset(limit, offset)).stream().collect(Collectors.toList());
 
     }
 
-    public void addInventoryItem(InventoryItem inventoryItem){
-        if(this.inventoryItemRepository.existsById(inventoryItem.getId())){
+    public void addInventoryItem(InventoryItem inventoryItem) {
+        if (this.inventoryItemRepository.existsById(inventoryItem.getId())) {
             throw new ItemAlreadyExistsException();
         }
         this.inventoryItemRepository.save(inventoryItem);
     }
 
-    public InventoryItem getInventoryItemById(String id){
+    public InventoryItem getInventoryItemById(String id) {
 
         return this.inventoryItemRepository.findById(id).orElseThrow(NotFoundException::new);
     }

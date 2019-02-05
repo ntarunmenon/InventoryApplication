@@ -16,20 +16,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
 import static org.mockito.BDDMockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @RunWith(SpringRunner.class)
 @WebMvcTest(InventoryItemController.class)
+@WithMockUser(username = "test", password = "1234")
 public class InventoryItemControllerTest {
 
     @Autowired
@@ -39,6 +41,7 @@ public class InventoryItemControllerTest {
     private InventoryService inventoryService;
 
     @Test
+    @WithMockUser(username = "test", password = "1234")
     public void testnoInventoryItemFound() throws Exception {
         given(inventoryService.getInventoryItemById("1"))
                 .willThrow(NotFoundException.class);
@@ -55,7 +58,7 @@ public class InventoryItemControllerTest {
 
     @Test
     public void testItemCreated() throws Exception {
-        this.mockMvc.perform(post("/inventory")
+        this.mockMvc.perform(post("/inventory").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(asJsonString(createValidInventoryItem())))
                 .andExpect(status().isCreated());
@@ -64,7 +67,7 @@ public class InventoryItemControllerTest {
 
     @Test
     public void testItemCreated_Fails() throws Exception {
-        this.mockMvc.perform(post("/inventory")
+        this.mockMvc.perform(post("/inventory").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(asJsonString(createInValidInventoryItem())))
                 .andExpect(status().isBadRequest())
@@ -76,7 +79,7 @@ public class InventoryItemControllerTest {
         willThrow(ItemAlreadyExistsException.class).given(inventoryService)
                 .addInventoryItem(any(InventoryItem.class));
 
-        this.mockMvc.perform(post("/inventory")
+        this.mockMvc.perform(post("/inventory").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(asJsonString(createValidInventoryItem())))
                 .andExpect(status().isConflict())

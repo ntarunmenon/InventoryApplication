@@ -1,4 +1,4 @@
 package org.arunm.exception;
 
-public final class NotFoundException extends RuntimeException{
+public final class NotFoundException extends RuntimeException {
 }

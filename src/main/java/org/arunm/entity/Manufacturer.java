@@ -21,7 +21,7 @@ public class Manufacturer {
     private String name;
     @URL
     private String homePage;
-    @Pattern(regexp="^\\(0\\d{1}\\) \\d{4} \\d{4}$")
+    @Pattern(regexp = "^\\(0\\d{1}\\) \\d{4} \\d{4}$")
     private String phone;
 
     @JsonIgnore

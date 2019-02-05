@@ -3,7 +3,7 @@ package org.arunm.service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-public  class PageRequestWithOffset implements Pageable {
+public class PageRequestWithOffset implements Pageable {
 
     private int limit;
     private int offset;
@@ -15,12 +15,12 @@ public  class PageRequestWithOffset implements Pageable {
 
     @Override
     public int getPageNumber() {
-        return  1;
+        return 1;
     }
 
     @Override
     public int getPageSize() {
-        return limit > 0 ? limit:Integer.MAX_VALUE;
+        return limit > 0 ? limit : Integer.MAX_VALUE;
     }
 
     @Override
