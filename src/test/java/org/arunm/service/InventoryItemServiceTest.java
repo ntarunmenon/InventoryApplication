@@ -1,9 +1,9 @@
-package org.arunm.repository;
+package org.arunm.service;
 
 import org.arunm.entity.InventoryItem;
 import org.arunm.entity.Manufacturer;
 import org.arunm.exception.ItemAlreadyExistsException;
-import org.arunm.service.InventoryService;
+import org.arunm.repository.InventoryItemRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class InventoryItemRepositoryTest {
+public class InventoryItemServiceTest {
 
     @Autowired
     private InventoryItemRepository inventoryItemRepository;
